@@ -1,0 +1,214 @@
+
+
+
+
+<style>
+  html {
+  font-size: 40.5%;
+}
+.body {
+  /* background-color: #f4f4f4; */
+  /* min-height: 100vh; */
+  max-height: 89vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+  
+.profile-card {
+  /* background-color: #fff; */
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 24px;
+  padding: 2.5rem;
+  width: 36rem;
+  margin-top: 2rem;
+  /* margin-bottom: 3rem; */
+  /* border: 1px solid black; */
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.profile-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 15rem;
+  width: 100%;
+  border-radius: 24px 24px 0 0;
+  background-color: #4070f4;
+}
+.profile-card .image {
+  border-radius: 50%;
+  background-color: #4070f4;
+  height: 15rem;
+  margin-bottom: 2rem;
+  padding: 0.3rem;
+  width: 15rem;
+  position: relative;
+  z-index: 3;
+}
+.image img {
+  border: 3px solid #fff;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 0.1rem;
+  height: 100%;
+  width: 100%;
+}
+.profile-card .text-data {
+  text-align: center;
+}
+.text-data h2 {
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+.text-data p {
+  font-size: 1.5rem;
+  font-weight: 400;
+}
+.media-icons{
+  margin-top: 1.5rem;
+}
+.media-icons a {
+  border-radius: 50%;
+  color: white;
+  display: inline-block;
+  font-size: 2rem;
+  height: 3.5rem;
+  width: 3.5rem;
+  padding-inline: 1rem;
+  position: relative;
+  margin-inline: 0.8rem;
+}
+.media-icons i {
+ position: absolute;
+ left: 50%;
+ top: 50%;
+ transform: translate(-50%, -50%);
+}
+.buttons{
+  margin-top: 1.5rem;
+}
+.buttons button {
+  background-color: #4070f4;
+  border-radius: 2.4rem;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 400;
+  padding: 0.8rem 2.4rem;
+  margin-inline: 1.2rem;
+}
+.buttons button:hover {
+  background-color: #152551;
+}
+.profile-card .analytics {
+  margin-top: 2.5rem;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.analytics .data {
+  color: #333;
+  padding: 0.2rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.data i {
+  font-size: 1rem;
+  margin-right: 0.3rem;
+}
+.data p {
+  font-size: 1rem;
+}
+
+@media (width <= 390px) {
+  html {
+    font-size: 56.25%;
+  }
+}
+@media (width <= 370px) {
+  html {
+    font-size: 50%;
+  }
+}
+
+</style>
+
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+</head>
+<div class="body" style="backdrop-filter: blur(0px); ">
+
+
+  @if(loading){
+
+  <section>
+   <div style="display: flex; align-items: center; justify-content: center;">
+   <mat-spinner></mat-spinner>
+   </div>
+  </section>
+
+  }@else{
+
+    <section class="profile-card" style="backdrop-filter: blur(1px); background-color: rgba(255, 255, 255, 0.3);">
+      <div class="image">
+          <img src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?t=st=1725253344~exp=1725256944~hmac=3de5209475362dc8f5bae69dd43e9ac86da4ad402a39c4e5fffc335d778532d8&w=740" alt="user image">
+      </div>
+      <div class="text-data">
+          <h2>{{userProfile?.username}}</h2>
+          <p>{{userProfile?.email}}</p>
+      </div>
+
+      <div>
+        <p>Member since: {{userProfile.createdAt | date:"fullDate"}}</p>
+      </div>
+      <div class="buttons">
+        <a routerLink="/user/edit-profile">
+          <button>Edit Profile
+          </button></a>
+          <a routerLink="/user/change-password">
+          <button>Change Password</button></a>
+      </div>
+      <div class="analytics">
+          <div class="data">
+            <i class="fa-solid fa-list"> {{totalTasks}}</i>
+              
+          </div>
+          <div class="data">
+            <i class="fa-solid fa-check"> {{completedTasks}}</i>
+
+          </div>
+          <div class="data">
+            <i class="fa-solid fa-hourglass-half"> {{pendingTasks}}</i>
+          </div>
+      </div>
+    </section>
+
+  }
+
+
+
+
+
+
+
+
+</div>
+
+
+<!-- <router-outlet></router-outlet> -->
+
+     

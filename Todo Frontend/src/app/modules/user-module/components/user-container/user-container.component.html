@@ -1,0 +1,32 @@
+
+<!-- <div class="background-container" [ngStyle]="{'background-image': 'url(' + getThemePath(theme$ | async) + ')'}"
+>
+<app-header style="backdrop-filter: blur(1px); background-color: rgba(255, 255, 255, 0.3);"></app-header>
+<router-outlet style="backdrop-filter: blur(1px); background-color: rgba(255, 255, 255, 0.3);"></router-outlet>
+</div> -->
+
+
+
+
+<div *ngIf="!isVideo(theme$ | async)">
+ 
+    <div class="background-container" [ngStyle]="{'background-image': 'url(' + getThemePath(theme$ | async) + ')'}"
+    >
+  
+    <app-header style="backdrop-filter: blur(1px); background-color: rgba(255, 255, 255, 0.3);"></app-header>
+    <router-outlet style="backdrop-filter: blur(1px); background-color: rgba(255, 255, 255, 0.3);"></router-outlet>
+  </div>
+  </div>
+
+
+  <div *ngIf="isVideo(theme$ | async)">
+ <div class="background-container">
+    <video #bgVideo autoplay loop muted class="bg-video">
+        <source [src]="'../../../../../assets/' + (theme$ | async)" type="video/mp4">
+kjgkhkjhkjhkkjhkjhkjhkhkjhkjkgkhvjklgvjhgjv
+      </video>
+  
+    <app-header style="backdrop-filter: blur(1px); background-color: rgba(255, 255, 255, 0.3);"></app-header>
+    <router-outlet style="backdrop-filter: blur(1px); background-color: rgba(255, 255, 255, 0.3);"></router-outlet>
+</div>
+  </div>

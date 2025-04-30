@@ -1,0 +1,56 @@
+.search {
+  height: 20px;
+  margin-left: -22px;
+  margin-top: 1px;
+}
+
+.table td, .table th {
+  padding: 0px 10px 0px 10px !important;
+  vertical-align: middle !important;
+  border-top: 0px solid #dee2e6 !important;
+}
+
+#icon-search {
+  margin-top: 0px !important;
+}
+
+.timeInput {
+  border-bottom: solid 1px;
+  border-bottom-color: #949494;
+}
+
+.inputClock {
+  margin: -2px 0px 0px -27px;
+}
+
+.example-full-width- {
+  height: auto;
+  min-height: 9vh;
+}
+
+.bottom-class {
+  bottom: 0 !important;
+}
+
+/* mat-form-field { */
+  /* appearance: legacy !important; */
+/* } */
+
+
+/* mat-error {
+  color: red; 
+}
+
+input.ng-invalid {
+  border: 1px solid red;
+} */
+
+/* .mat-form-field{
+appearance: 'outline';
+} */
+
+.mat-form-field {
+  --mat-form-field-appearance: outline;
+}
+
+

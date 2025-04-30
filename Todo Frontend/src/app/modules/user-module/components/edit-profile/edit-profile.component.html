@@ -1,0 +1,42 @@
+
+
+@if(loading){
+  <div style=" width: 100%; height: 100vh; display: flex; align-items: center; justify-content: center;">
+    <mat-spinner></mat-spinner>
+    </div>
+}
+@defer(){
+  <!-- <html lang="en"> -->
+  <!-- <head> -->
+    <!-- <meta charset="UTF-8" /> -->
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0" /> -->
+
+    <!-- <title>login</title> -->
+    <!-- <link rel="stylesheet" href="./edit-profile.component.css" /> -->
+
+  <!-- </head>  -->
+  <div class="body" style="backdrop-filter: blur(0px);" >
+    <section class="wrapper" style="backdrop-filter: blur(1px);">
+      <div class="form signup">
+        <header>Edit Profile</header>
+
+        <form #loginForm="ngForm" (ngSubmit)="handleEditProfile(loginForm.value)">
+          @if(initialData?.username && initialData?.email){
+            <input type="text" placeholder="Username" [(ngModel)]='initialData.username'  name="username"  required />
+            <input type="email" placeholder="email" ngModel [(ngModel)]='initialData.email' name="email" required />
+
+          <input [disabled]="loginForm.invalid" (click)="handleEditProfile(loginForm.value)" type="submit" value="Update Profile" />
+          }
+
+
+
+
+        </form>
+      </div>
+    </section>
+  </div>
+ <!-- </html>  -->
+}
+
+
+<!-- <router-outlet></router-outlet> -->

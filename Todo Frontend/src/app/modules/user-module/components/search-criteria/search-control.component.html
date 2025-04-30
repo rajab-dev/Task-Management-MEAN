@@ -1,0 +1,1160 @@
+<div  class="card full-height" style="height: 85vh; overflow: auto; margin-top: 20px; margin-left: 10px;backdrop-filter: blur(0px); background-color: rgba(255, 255, 255, 0.077);">
+  <div class="card-header">
+    <mat-toolbar-row class="search" style="display: flex; align-items: center; margin-left: 5px;">
+      <mat-icon style="color: white !important;">search</mat-icon>
+      <b style="color: white !important;"> Search Criteria </b>
+    </mat-toolbar-row>
+
+  </div>
+  <div class="card-body position-relative" style="overflow: auto;">
+    <form [formGroup]="searchForm" style="width: 300px;">
+
+      <div *ngIf="isDateShow" class="row mt-3">
+        <div class="col-2">
+          <div class="mt-4">
+            <mat-checkbox (change)="onDateTime($event)" id="checkDate" [checked]="ischecked"></mat-checkbox>
+          </div>
+        </div>
+        <div class="col-10">
+          <div class="row">
+            <div class="col-6">
+              <mat-form-field style="color: white !important; border-color: white !important; width: 100%; --mat-form-field-outline-color: white !important; --mat-form-field-outline-width: 2px;" appearance="outline" >
+                <mat-label style="color: white !important;">Start Date Time</mat-label>
+                <input style="
+                color: white !important; 
+                caret-color: white !important; 
+                border-color: white !important;
+              " matInput [matDatepicker]="pickerfrom" [min]="minDate" [max]="maxDate"
+                       class="custom-width" (ngModelChange)="onDateChange()" formControlName="dateFrom" />
+                <mat-datepicker style="color: white !important; caret-color: white !important;" #pickerfrom>
+                </mat-datepicker>
+                <mat-datepicker-toggle style="color: white !important; caret-color: white !important;" matSuffix [for]="pickerfrom"></mat-datepicker-toggle>
+              </mat-form-field>
+            </div>
+            <div class="col-6">
+              <div class="toggle-example" style="display: flex;">
+                <mat-form-field style="width: 100%;color: white !important; border-color: white !important; width: 100%; --mat-form-field-outline-color: white !important; --mat-form-field-outline-width: 2px;" appearance="outline" appearance="outline">
+                  <input style="
+                  color: white !important; 
+                  caret-color: white !important; 
+                  border-color: white !important;
+                " matInput formControlName="timeFrom" [ngxMatTimepicker]="timeFromPicker"
+                         readonly />
+                  <mat-icon style="color: white !important;" matSuffix (click)="timeFromPicker.open()">
+                    watch_later
+                  </mat-icon>
+                </mat-form-field>
+                <ngx-mat-timepicker #timeFromPicker></ngx-mat-timepicker>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-6">
+              <mat-form-field style="width: 100%; color: white !important; border-color: white !important; width: 100%; --mat-form-field-outline-color: white !important; --mat-form-field-outline-width: 2px;" appearance="outline">
+                <mat-label style="color: white !important;">End Date Time</mat-label>
+                <input style="
+                color: white !important; 
+                caret-color: white !important; 
+                border-color: white !important;
+              "  matInput [matDatepicker]="pickerend" [max]="maxDate" formControlName="dateTo"
+                       readonly (ngModelChange)="onDateChange()" />
+                <mat-datepicker #pickerend>
+                </mat-datepicker>
+                <mat-datepicker-toggle style="color: white !important; caret-color: white !important;" matSuffix [for]="pickerend"></mat-datepicker-toggle>
+              </mat-form-field>
+            </div>
+            <div class="col-6">
+              <div class="toggle-example" style="display: flex;">
+
+                <mat-form-field  class="example-full-width" style="width: 100%; color: white !important; border-color: white !important; width: 100%; --mat-form-field-outline-color: white !important; --mat-form-field-outline-width: 2px;" appearance="outline">
+                  <input style="
+                  color: white !important; 
+                  caret-color: white !important; 
+                  border-color: white !important;
+                "  matInput formControlName="timeTo" [ngxMatTimepicker]="timeToPicker"
+                         readonly />
+                  <mat-icon style="color: white !important;" matSuffix (click)="timeToPicker.open()">
+                    watch_later
+                  </mat-icon>
+                </mat-form-field>
+                <ngx-mat-timepicker #timeToPicker></ngx-mat-timepicker>
+              </div>
+            </div>
+          </div>
+
+          <mat-error *ngIf="!isValidDate">
+            End date time should not be smaller than start date
+            time.
+          </mat-error>
+        </div>
+      </div>
+
+      <div *ngIf="isChannelShow" class="row">
+        <div class="col-2">
+          <div class="mt-4">
+            <mat-checkbox [checked]="false" (change)="onCheckChannel($event)"></mat-checkbox>
+          </div>
+        </div>
+        <div class="col-10">
+          <mat-form-field appearance="outline">
+            <mat-label>Channel</mat-label>
+            <mat-select formControlName="channelId" (selectionChange)="onChannelChange($event)">
+              <!-- <mat-option selected="selected" value="">Select Channel</mat-option> -->
+              <mat-option *ngFor="let channel of channels" [value]="channel.channeL_ID">
+                {{ channel.channeL_NAME }}
+              </mat-option>
+            </mat-select>
+            <mat-error>Channel ID is required</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div *ngIf="isFranchiseId" class="row">
+        <div class="col-2">
+          <div class="mt-4">
+            <mat-checkbox [checked]="false" (change)="onFranchiseLovs($event)"></mat-checkbox>
+          </div>
+        </div>
+        <!-- <div class="col-10">
+      <mat-form-field>
+        <mat-label>Franchise ID</mat-label>
+        <mat-select formControlName="frenchise_code" [disableOptionCentering]="true" (selectionChange)="FranchiseLovs()" matSelectFilter>
+
+          <mat-select-filter [placeholder]="'Filter'" [displayMember]="'text'" [array]="franchise"
+                             (filteredReturn)="filteredListFranchise = $event"></mat-select-filter>
+
+          <mat-option *ngFor="let lov of filteredListFranchise" [value]="lov.text">
+            {{ lov.text }}
+          </mat-option>
+        </mat-select>
+        <mat-error>Franchise ID is required</mat-error>
+      </mat-form-field>
+    </div> -->
+        <div class="col-10">
+          <mat-form-field appearance="outline" class="example-full-width">
+            <mat-label>Franchise ID</mat-label>
+            <input matInput type="text" matInput pattern="^[^@.,]*$" formControlName="frenchise_code" (input)="onKeyPress($event)" [matAutocomplete]="auto" />
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option *ngFor="let lov of filteredListFranchise" [value]="lov.text" (click)="selectOption(lov.text)">
+                {{ lov.text }}
+              </mat-option>
+            </mat-autocomplete>
+            <mat-error *ngIf="hasError('frenchise_code', 'required')">Franchise ID is required</mat-error>
+            <mat-error *ngIf="hasError('frenchise_code', 'pattern')">
+              Franchise ID cannot contain chracters.
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!--Retailer Franchise ID-->
+      <div *ngIf="isRetailerFranchiseId" class="row">
+        <div class="col-2">
+          <div #franchise class="mt-4">
+            <mat-checkbox [disabled]="retailerFranID" [checked]="true" (change)="onRetailerFranchiseLovs($event)"></mat-checkbox>
+          </div>
+        </div>
+        <div class="col-10">
+          <mat-form-field appearance="outline" class="example-full-width">
+            <mat-label>Franchise ID</mat-label>
+            <input [readOnly]="retailerFranID" matInput type="text" pattern="^[^@.,]*$" formControlName="retailer_frenchise_code" (input)="onRetailerKeyPress($event)" [matAutocomplete]="auto" />
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option *ngFor="let lov of filteredListFranchise" [value]="lov.text" (click)="selectOption(lov.text)">
+                {{ lov.text }}
+              </mat-option>
+            </mat-autocomplete>
+            <mat-error *ngIf="hasError('retailer_frenchise_code', 'required')">Franchise ID is required</mat-error>
+            <mat-error *ngIf="hasError('retailer_frenchise_code', 'pattern')">
+              Franchise ID cannot contain chracters.
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+
+      <div *ngIf="isActivityShow" class="row">
+        <div class="col-2">
+          <div class="mt-4">
+            <mat-checkbox [checked]="false" (change)="onCheckActivity($event)"></mat-checkbox>
+          </div>
+        </div>
+        <div class="col-10">
+          <mat-form-field appearance="outline">
+            <mat-label>Activity Name</mat-label>
+            <mat-select formControlName="activityName" multiple>
+              <mat-option selected="selected" value="" hidden>Select Activity</mat-option>
+              <mat-option *ngFor="let act of activities" [value]="act.activitY_NAME">
+                {{ act.activitY_NAME }}
+              </mat-option>
+            </mat-select>
+            <mat-error>Activity is required</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div *ngIf="isStatusShow" class="row">
+        <div class="col-2">
+          <div class="mt-4">
+            <mat-checkbox [checked]="false" (change)="onCheckStatus($event)"></mat-checkbox>
+          </div>
+        </div>
+        <div class="col-10">
+          <mat-form-field appearance="outline">
+            <mat-label>Tran Status</mat-label>
+            <mat-select formControlName="Status">
+              <mat-option selected="selected" value="" hidden>Select Activity</mat-option>
+              <mat-option *ngFor="let act of status" [value]="act.datA_VALUE">
+                {{ act.displaY_VALUE }}
+              </mat-option>
+            </mat-select>
+            <mat-error>Tran Status is required</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+
+      <div *ngIf="isDeviceType" class="row">
+        <div class="col-2">
+          <div class="mt-4">
+            <mat-checkbox [checked]="false" (change)="onCheckDeviceType($event)"></mat-checkbox>
+          </div>
+        </div>
+        <div class="col-10">
+          <mat-form-field appearance="outline">
+            <mat-label>Device Type</mat-label>
+            <mat-select formControlName="deviceType">
+              <mat-option selected="selected" value="" hidden>Select Device Type</mat-option>
+              <mat-option *ngFor="let act of deviceTypes" [value]="act.datA_VALUE">
+                {{ act.displaY_VALUE }}
+              </mat-option>
+            </mat-select>
+            <mat-error>Device Type is required</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+
+      <div *ngIf="isBusinessLocationTypes" class="row">
+        <div class="col-2">
+          <div class="mt-4">
+            <mat-checkbox [checked]="false" (change)="onCheckBusinessLocationTypes($event)"></mat-checkbox>
+          </div>
+        </div>
+        <div class="col-10">
+          <mat-form-field appearance="outline">
+            <mat-label>Business Type</mat-label>
+            <mat-select formControlName="businessLocationTypes" (selectionChange)="businessTypesChanges($event.value)">
+              <mat-option selected="selected" value="" hidden>Select Business Type</mat-option>
+              <mat-option *ngFor="let act of businessTypes" [value]="act.datA_VALUE">
+                {{ act.displaY_VALUE }}
+              </mat-option>
+            </mat-select>
+            <mat-error>Business Type is required</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div *ngIf="isLoctaion" class="row">
+        <div class="col-2">
+          <div class="mt-4">
+            <mat-checkbox formControlName="locCheck" [checked]="searchForm.get('locCheck')?.value" (change)="onCheckLocation($event)"></mat-checkbox>
+          </div>
+        </div>
+        <div class="col-10">
+          <mat-form-field appearance="outline">
+            <mat-label>Location</mat-label>
+            <mat-select formControlName="location">
+              <mat-option selected="selected" value="" hidden>Select Location</mat-option>
+              <mat-option *ngFor="let act of branch" [value]="act.bcI_ID">
+                {{ act.brancH_NAME }}
+              </mat-option>
+            </mat-select>
+            <mat-error>Location is required</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div *ngIf="isVendorID" class="row">
+        <div class="col-2">
+          <div class="mt-4">
+            <mat-checkbox [checked]="false" (change)="onCheckVendorID($event)"></mat-checkbox>
+          </div>
+        </div>
+        <div class="col-10">
+          <mat-form-field appearance="outline" class="example-full-width">
+            <mat-label>Vendor ID</mat-label>
+            <input matInput placeholder="Vendor ID" formControlName="vendorID"
+                   (keydown.space)="$event.preventDefault();" appOnlyNumber>
+            <mat-error *ngIf="searchForm.controls['vendorID'].hasError('invalidNumber')">
+              Please enter  number.
+            </mat-error>
+            <mat-error *ngIf="hasError('vendorID', 'required')">Vendor ID is required</mat-error>
+            <!-- <mat-error *ngIf="hasError('vendorName', 'pattern')"> -->
+            <!-- </mat-error> -->
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div *ngIf="isVendorName" class="row">
+        <div class="col-2">
+          <div class="mt-4">
+            <mat-checkbox [checked]="false" (change)="onCheckVendorName($event)"></mat-checkbox>
+          </div>
+        </div>
+        <div class="col-10">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Vendor Name</mat-label>
+            <input matInput placeholder="Vendor Name" formControlName="vendorName"
+                   (keydown.space)="$event.preventDefault();">
+            <mat-error *ngIf="hasError('vendorName', 'required')">Vendor Name is required</mat-error>
+            <!-- <mat-error *ngIf="hasError('vendorName', 'pattern')"> -->
+            <!-- </mat-error> -->
+          </mat-form-field>
+        </div>
+      </div>
+      <div *ngIf="isDeviceSerialNo" class="row">
+        <div class="col-2">
+          <div class="mt-4">
+            <mat-checkbox [checked]="false" (change)="onCheckDeviceSerialNo($event)"></mat-checkbox>
+          </div>
+        </div>
+        <div class="col-10">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Device Serial No</mat-label>
+            <input matInput placeholder="Device Serial No" formControlName="deviceSerialNo">
+            <mat-error *ngIf="hasError('deviceSerialNo', 'required')">Device Serial No is required</mat-error>
+            <!-- <mat-error *ngIf="hasError('vendorName', 'pattern')"> -->
+            <!-- </mat-error> -->
+            <mat-error *ngIf="hasError('deviceSerialNo', 'pattern')">
+              Please Provide Alpha Numeric
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+
+      <div *ngIf="isTaskTitle" class="row">
+        <div class="col-2">
+          <div class="mt-4">
+            <mat-checkbox [checked]="false" (change)="onCheckTaskTitle($event)"></mat-checkbox>
+          </div>
+        </div>
+        <div class="col-10">
+          <mat-form-field style="color: white !important; border-color: white !important; width: 100%; --mat-form-field-outline-color: white !important; --mat-form-field-outline-width: 2px;"  class="example-full-width" appearance="outline">
+            <mat-label style="
+            color: white !important;">Task Title</mat-label>
+            <input style="
+            color: white !important; 
+            caret-color: white !important; 
+            border-color: white !important;
+          " matInput placeholder="Task Title" formControlName="taskTitle">
+            <mat-error *ngIf="hasError('taskTitle', 'required')">Task Title is required</mat-error>
+            <!-- <mat-error *ngIf="hasError('vendorName', 'pattern')"> -->
+            <!-- </mat-error> -->
+            <!-- <mat-error *ngIf="hasError('deviceSerialNo', 'pattern')">
+              Please Provide Alpha Numeric
+            </mat-error> -->
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div *ngIf="isTaskDescription" class="row">
+        <div class="col-2">
+          <div class="mt-4">
+            <mat-checkbox [checked]="false" (change)="onCheckTaskDescription($event)"></mat-checkbox>
+          </div>
+        </div>
+        <div class="col-10">
+          <mat-form-field  style="color: white !important; border-color: white !important; width: 100%; --mat-form-field-outline-color: white !important; --mat-form-field-outline-width: 2px;"  class="example-full-width" class="example-full-width" appearance="outline">
+            <mat-label style="
+            color: white !important;">Task Description</mat-label>
+            <input style="
+            color: white !important; 
+            caret-color: white !important; 
+            border-color: white !important;
+          " matInput placeholder="Task Description" formControlName="taskDescription">
+            <mat-error *ngIf="hasError('taskDescription', 'required')">Task Description is required</mat-error>
+            <!-- <mat-error *ngIf="hasError('vendorName', 'pattern')"> -->
+            <!-- </mat-error> -->
+            <!-- <mat-error *ngIf="hasError('deviceSerialNo', 'pattern')">
+              Please Provide Alpha Numeric
+            </mat-error> -->
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div *ngIf="isMapStatusShow" class="row">
+        <div class="col-2">
+          <div class="mt-4">
+            <mat-checkbox [checked]="false" (change)="onCheckMapStatus($event)"></mat-checkbox>
+          </div>
+        </div>
+        <div class="col-10">
+          <mat-form-field appearance="outline">
+            <mat-label>Mapped Status</mat-label>
+            <mat-select formControlName="MapStatus">
+              <mat-option selected="selected" value="" hidden>Select Mapped Status</mat-option>
+              <mat-option value="0">
+                UNMAPPED
+              </mat-option>
+              <mat-option value="1">
+                MAPPED
+              </mat-option>
+            </mat-select>
+            <mat-error>Map Status is required</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+
+
+      <div *ngIf="isDeviceStatus" class="row">
+        <div class="col-2">
+          <div class="mt-4">
+            <mat-checkbox [checked]="false" (change)="onCheckDeviceStatus($event)"></mat-checkbox>
+          </div>
+        </div>
+        <div class="col-10">
+          <mat-form-field appearance="outline">
+            <mat-label>Device Status</mat-label>
+            <mat-select formControlName="DeviceStatus">
+              <mat-option selected="selected" value="" hidden>Select Device Status</mat-option>
+              <mat-option value=0>
+                Genuine
+              </mat-option>
+              <mat-option value=1>
+                Cloned
+              </mat-option>
+              <mat-option value=2>
+                Unidentified Android IDs
+              </mat-option>
+            </mat-select>
+            <mat-error>Device Status is required</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+
+      <div *ngIf="isTaskStatus" class="row">
+        <div class="col-2">
+          <div class="mt-4">
+            <mat-checkbox [checked]="false" (change)="onCheckTaskStatus($event)"></mat-checkbox>
+          </div>
+        </div>
+        <div class="col-10">
+          <mat-form-field appearance="outline">
+            <mat-label style="
+            color: white !important; 
+          ">Task Status</mat-label>
+            <mat-select style="
+            color: white !important; 
+            background: transparent !important;
+          "formControlName="taskStatus">
+              <mat-option selected="selected" value="" hidden>Select Task Status</mat-option>
+              <mat-option value=1>
+                Completed
+              </mat-option>
+              <mat-option value=0>
+               InComplete
+              </mat-option>
+            </mat-select>
+            <mat-error>Task Status is required</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+
+
+
+      <div *ngIf="isUID" class="row">
+        <div class="col-2">
+          <div class="mt-4">
+            <mat-checkbox [checked]="false" (change)="onCheckUID($event)"></mat-checkbox>
+          </div>
+        </div>
+        <div class="col-10">
+          <mat-form-field  style="color: white !important; border-color: white !important; width: 100%; --mat-form-field-outline-color: white !important; --mat-form-field-outline-width: 2px;"  class="example-full-width"  class="example-full-width" appearance="outline">
+            <mat-label style="
+            color: white !important;">UID</mat-label>
+            <input style="
+            color: white !important; 
+            caret-color: white !important; 
+            border-color: white !important;
+          " matInput placeholder="UID" type="text" formControlName="UID" 
+                   (keydown.space)="$event.preventDefault();">
+            <mat-error *ngIf="hasError('UID', 'required')">TRN is required</mat-error>
+            <mat-error *ngIf="hasError('UID', 'pattern')">
+              Only numbers are allowed.
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div *ngIf="isRegionShow" class="row">
+        <div class="col-2">
+          <div class="mt-4">
+            <mat-checkbox [checked]="false" (change)="onCheckRegionDevice($event)"></mat-checkbox>
+          </div>
+        </div>
+        <div class="col-10">
+          <mat-form-field appearance="outline">
+            <mat-label>Region</mat-label>
+            <mat-select formControlName="generalRegion" (selectionChange)="onChangeGenRegion($event)">
+              <mat-option *ngFor="let r of genericRegion" [value]="r.l_ID">
+                {{ r.datA_VALUE }}
+              </mat-option>
+            </mat-select>
+            <mat-error>Region is required</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div *ngIf="isSubRegionShow" class="row">
+        <div class="col-2">
+          <div class="mt-4">
+            <mat-checkbox formControlName="subRegionCheck" [checked]="searchForm.get('subRegionCheck')?.value" (change)="onCheckSubRegionDevice($event)"></mat-checkbox>
+          </div>
+        </div>
+        <div class="col-10">
+          <mat-form-field appearance="outline">
+            <mat-label>Sub Region</mat-label>
+            <mat-select formControlName="generalSubRegion">
+              <mat-option *ngFor="let r of genericSubRegion" [value]="r.l_ID">
+                {{ r.datA_VALUE }}
+              </mat-option>
+            </mat-select>
+            <mat-error>Sub Region is required</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+
+      <div *ngIf="isActivityIdShow" class="row">
+        <div class="col-2">
+          <div class="mt-4">
+            <mat-checkbox [checked]="false" (change)="onCheckActivityId($event)"></mat-checkbox>
+          </div>
+        </div>
+        <div class="col-10">
+          <mat-form-field appearance="outline">
+            <mat-label>Activity Name</mat-label>
+            <mat-select formControlName="activityId">
+              <!-- <mat-option selected="selected" value="">Select Activity</mat-option> -->
+              <mat-option *ngFor="let act of activities" [value]="act.activitY_ID">
+                {{ act.activitY_NAME }}
+              </mat-option>
+            </mat-select>
+            <mat-error>Activity is required</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div *ngIf="isAppShow" class="row">
+        <div class="col-2">
+          <div class="mt-4">
+            <mat-checkbox [checked]="false" (change)="onCheckApp($event)"></mat-checkbox>
+          </div>
+        </div>
+        <div class="col-10">
+          <mat-form-field appearance="outline">
+            <mat-label>Application</mat-label>
+            <mat-select formControlName="appId">
+              <!-- <mat-option selected="selected" value="">Select Application</mat-option> -->
+              <mat-option *ngFor="let app of applications" [value]="app['apP_ID']">
+                {{ app['apP_NAME'] }}
+              </mat-option>
+            </mat-select>
+            <mat-error>Application is required</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div *ngIf="isApiNamesShow" class="row">
+        <div class="col-2">
+          <div class="mt-4">
+            <mat-checkbox [checked]="false" (change)="onCheckApiName($event)"></mat-checkbox>
+          </div>
+        </div>
+        <div class="col-10">
+          <mat-form-field appearance="outline">
+            <mat-label>API Name</mat-label>
+            <mat-select formControlName="apiName">
+              <mat-option selected="selected" value="">Select API</mat-option>
+              <mat-option *ngFor="let api of apiNames" [value]="api['apI_NAME']">
+                {{ api['apI_NAME'] }}
+              </mat-option>
+            </mat-select>
+            <mat-error>API Name is required</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div *ngIf="isOwnersShow" class="row">
+        <div class="col-2">
+          <div class="mt-4">
+            <mat-checkbox [checked]="false" (change)="onCheckOwner($event)"></mat-checkbox>
+          </div>
+        </div>
+        <div class="col-10">
+          <mat-form-field appearance="outline">
+            <mat-label>Owner</mat-label>
+            <mat-select formControlName="owner">
+              <mat-option selected="selected" value="">Select Owner</mat-option>
+              <mat-option *ngFor="let own of owners" [value]="own['owner']">
+                {{ own['owner'] }}
+              </mat-option>
+            </mat-select>
+            <mat-error>Owner is required</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div *ngIf="isTRNShow" class="row">
+        <div class="col-2">
+          <div class="mt-4">
+            <mat-checkbox [checked]="false" (change)="onTrnChange($event)"></mat-checkbox>
+          </div>
+        </div>
+        <div class="col-10">
+          <mat-form-field appearance="outline" class="example-full-width">
+            <mat-label>TRN</mat-label>
+            <input matInput placeholder="TRN" type="text" formControlName="trn" maxlength="9"
+                   (keydown.space)="$event.preventDefault();">
+            <mat-error *ngIf="hasError('trn', 'required')">TRN is required</mat-error>
+            <mat-error *ngIf="hasError('trn', 'pattern')">
+              Only numbers are allowed.
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div *ngIf="isTranIdShow" class="row">
+        <div class="col-2">
+          <div class="mt-4">
+            <mat-checkbox [checked]="false" (change)="onTranId($event)"></mat-checkbox>
+          </div>
+        </div>
+        <div class="col-10">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Tran ID</mat-label>
+            <input matInput placeholder="Tran ID" formControlName="tranId" maxlength="8"
+                   (keydown.space)="$event.preventDefault();">
+            <mat-error *ngIf="hasError('tranId', 'required')">Tran ID is required</mat-error>
+            <mat-error *ngIf="hasError('tranId', 'pattern')">
+              Only numbers are allowed.
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div *ngIf="isRetailer" class="row">
+        <div class="col-2">
+          <div class="mt-4">
+            <mat-checkbox [checked]="false" (change)="onRetailer($event)"></mat-checkbox>
+          </div>
+        </div>
+        <div class="col-10">
+          <mat-form-field appearance="outline" class="example-full-width">
+            <mat-label>Retailer ID</mat-label>
+            <input matInput placeholder="Retailer ID" formControlName="Retailer" maxlength="11"
+                   (keydown.space)="$event.preventDefault();">
+            <mat-error *ngIf="hasError('Retailer', 'required')">Retailer is required</mat-error>
+            <mat-error *ngIf="hasError('Retailer', 'pattern')">
+              Please Provide Alpha Numeric
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div *ngIf="isRetailerType" class="row">
+        <div class="col-2">
+          <div class="mt-4">
+            <mat-checkbox [checked]="false" (change)="onRetailerType($event)"></mat-checkbox>
+          </div>
+        </div>
+        <div class="col-10">
+          <mat-form-field class="example-full-width">
+            <mat-label>Retailer Type</mat-label>
+            <mat-select formControlName="retailerType">
+              <mat-option selected="selected" value="" hidden>Select Retailer Type</mat-option>
+              <mat-option *ngFor="let act of retailerType" [value]="act.datA_VALUE">
+                {{ act.displaY_VALUE }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="hasError('retailerType', 'required')">Retailer Type is required</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+
+
+
+      <div *ngIf="isIMEI" class="row">
+        <div class="col-2">
+          <div class="mt-4">
+            <mat-checkbox [checked]="false" (change)="onIMEI($event)"></mat-checkbox>
+          </div>
+        </div>
+        <div class="col-10">
+          <mat-form-field style="color: white !important; border-color: white !important; width: 100%; --mat-form-field-outline-color: white !important; --mat-form-field-outline-width: 2px;" class="example-full-width" appearance="outline" style="border: none; outline: none;">
+            <mat-label style="
+            color: white !important; 
+          ">IMEI</mat-label>
+            <input style="
+            color: white !important; 
+            caret-color: white !important; 
+            border-color: white !important;
+          " matInput placeholder="IMEI" formControlName="IMEI" maxlength="20"
+                   appOnlyNumber
+                   pattern="^[^@.,]*$"
+                   (keydown.space)="$event.preventDefault();">
+            <mat-error *ngIf="hasError('IMEI', 'required')">IMEI is required</mat-error>
+            <mat-error *ngIf="hasError('IMEI', 'pattern')">
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+
+      <div *ngIf="isIMSIorSIMShow" class="row">
+        <div class="col-2">
+          <div class="mt-4">
+            <mat-checkbox [checked]="false" (change)="onIMSIorSIMShow($event)"></mat-checkbox>
+          </div>
+        </div>
+        <div class="col-10">
+          <mat-form-field class="example-full-width">
+            <mat-label>IMSI / SIM</mat-label>
+            <input matInput placeholder="IMSI / SIM" formControlName="IMSI_SIM" maxlength="20"
+                   (keydown.space)="$event.preventDefault();">
+            <mat-error *ngIf="hasError('IMSI_SIM', 'required')">IMSI_SIM is required</mat-error>
+            <mat-error *ngIf="hasError('IMSI_SIM', 'pattern')">
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div *ngIf="isDeviceMakeShow" class="row">
+        <div class="col-2">
+          <div class="mt-4">
+            <mat-checkbox [checked]="false" (change)="onDeviceMakeShow($event)"></mat-checkbox>
+          </div>
+        </div>
+        <div class="col-10">
+          <mat-form-field class="example-full-width">
+            <mat-label>Device Make</mat-label>
+            <input matInput placeholder="Device Make" formControlName="DeviceMake" maxlength="20"
+                   (keydown.space)="$event.preventDefault();">
+            <mat-error *ngIf="hasError('DeviceMake', 'required')">Device Make is required</mat-error>
+            <mat-error *ngIf="hasError('DeviceMake', 'pattern')">
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div *ngIf="isDeviceModelShow" class="row">
+        <div class="col-2">
+          <div class="mt-4">
+            <mat-checkbox [checked]="false" (change)="onDeviceModelShow($event)"></mat-checkbox>
+          </div>
+        </div>
+        <div class="col-10">
+          <mat-form-field class="example-full-width">
+            <mat-label>Device Model</mat-label>
+            <input matInput placeholder="Device Model" formControlName="DeviceModel" maxlength="20"
+                   (keydown.space)="$event.preventDefault();">
+            <mat-error *ngIf="hasError('DeviceModel', 'required')">Device Model is required</mat-error>
+            <mat-error *ngIf="hasError('DeviceModel', 'pattern')">
+              Please insert a valid input
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+
+
+
+      <div *ngIf="isCNICShow" class="row">
+        <div class="col-2">
+          <div class="mt-4">
+            <mat-checkbox [checked]="false" (change)="onCnic($event)"></mat-checkbox>
+          </div>
+        </div>
+        <div class="col-10">
+          <mat-form-field class="example-full-width">
+            <mat-label>CNIC</mat-label>
+            <input matInput placeholder="CNIC" formControlName="Cnic" maxlength="13"
+                   (keydown.space)="$event.preventDefault();">
+            <mat-error *ngIf="hasError('Cnic', 'required')">CNIC is required</mat-error>
+            <mat-error *ngIf="hasError('Cnic', 'pattern')">
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+
+      <div *ngIf="isCampaignType" class="row">
+        <div class="col-2">
+          <div class="mt-4">
+            <mat-checkbox [checked]="false" (change)="onCampaignType($event)"></mat-checkbox>
+          </div>
+        </div>
+        <div class="col-10">
+          <mat-form-field>
+            <mat-label>Campaign Type</mat-label>
+            <mat-select formControlName="campaignType">
+              <mat-option selected="selected" value="" hidden>Select Campaign Type</mat-option>
+              <mat-option *ngFor="let act of campaignType" [value]="act.datA_VALUE">
+                {{ act.displaY_VALUE }}
+              </mat-option>
+            </mat-select>
+            <mat-error>Campaign Type is required</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div *ngIf="isCampaignIdShow" class="row">
+        <div class="col-2">
+          <div class="mt-4">
+            <mat-checkbox [checked]="false" (change)="onCampaignId($event)"></mat-checkbox>
+          </div>
+        </div>
+        <div class="col-10">
+          <mat-form-field class="example-full-width">
+            <mat-label>Campaign ID</mat-label>
+            <input matInput placeholder="Campaign ID" formControlName="campaignId" maxlength="8"
+                   (keydown.space)="$event.preventDefault();">
+            <mat-error *ngIf="hasError('campaignId', 'required')">Campaign ID is required</mat-error>
+            <mat-error *ngIf="hasError('campaignId', 'pattern')">
+              Only numbers are allowed.
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+
+      <div *ngIf="isAgentIdShow" class="row">
+        <div class="col-2">
+          <div class="mt-4">
+            <mat-checkbox [checked]="false" (change)="onAgentId($event)"></mat-checkbox>
+          </div>
+        </div>
+        <div class="col-10">
+          <mat-form-field class="example-full-width">
+            <mat-label>Agent ID</mat-label>
+            <input matInput placeholder="Agent ID" formControlName="agentId" maxlength="30">
+            <mat-error *ngIf="hasError('agentId', 'required')">Agent ID is required</mat-error>
+            <!--<mat-error *ngIf="hasError('agentId', 'pattern')">
+          Only numbers are allowed.
+        </mat-error>-->
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!--NOTE: COMMENT FOLLOWING CHUNK AND UNCOMMENT COMMENTED CHUNK TO SHOW L2 STATUS DROPDOWN-->
+      <!--L2 STATUS TEXT BOX-->
+      <!--<div *ngIf="isL2StatusShow" class="row">
+    <div class="col-2">
+      <div class="mt-4">
+        <mat-checkbox [checked]="false" (change)="onStatus($event)"></mat-checkbox>
+      </div>
+    </div>
+    <div class="col-10">
+      <mat-form-field class="example-full-width">
+        <mat-label>Status</mat-label>
+        <input matInput placeholder="Status" formControlName="L2Status" maxlength="30">
+        <mat-error *ngIf="hasError('L2Status', 'required')">Status is required</mat-error>
+      </mat-form-field>
+    </div>
+  </div>-->
+      <!--END OF L2 STATUS TEXT BOX-->
+      <!--NOTE: JUST UNCOMMENT FOLLOWING CHUNK TO SHOW L2 STATUS DROPDOWN-->
+      <div *ngIf="isL2StatusShow" class="row">
+        <div class="col-2">
+          <div class="mt-4">
+            <mat-checkbox [checked]="false" (change)="onCheckL2StatusType($event)"></mat-checkbox>
+          </div>
+        </div>
+        <div class="col-10">
+          <mat-form-field>
+            <mat-label>Status</mat-label>
+            <mat-select name="L2Status" formControlName="L2Status">
+              <mat-option *ngFor="let status of L2Statuses" [value]="status.status_ID">
+                {{ status.status_NAME }}
+              </mat-option>
+            </mat-select>
+            <mat-error>Status is required</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div *ngIf="isBlacklistingType" class="row">
+        <div class="col-2">
+          <div class="mt-4">
+            <mat-checkbox [checked]="false" (change)="onBlacklistingType($event)"></mat-checkbox>
+          </div>
+        </div>
+        <div class="col-10">
+          <mat-form-field>
+            <mat-label>Type</mat-label>
+            <mat-select (selectionChange)="onBlacklisting()" name="blacklistingType" formControlName="blacklistingType">
+              <mat-option *ngFor="let act of BlacklistingType" [value]="act.datA_VALUE">
+                {{ act.datA_VALUE }}
+              </mat-option>
+            </mat-select>
+            <mat-error>Type is required</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div *ngIf="isValue" class="row">
+        <div class="col-2">
+          <div class="mt-4">
+            <mat-checkbox [checked]="false" (change)="onValue($event)"></mat-checkbox>
+          </div>
+        </div>
+        <div class="col-10">
+          <mat-form-field class="example-full-width">
+            <!-- {{valueName}} -->
+            <mat-label>Value</mat-label>
+            <input matInput placeholder="{{valueName}}" formControlName="Value" maxlength="20"
+                   (keydown.space)="$event.preventDefault();">
+            <mat-error *ngIf="hasError('Value', 'required')">{{valueName}} is required</mat-error>
+            <mat-error *ngIf="hasError('Value', 'pattern')">
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div *ngIf="isBlacklistingStatus" class="row">
+        <div class="col-2">
+          <div class="mt-4">
+            <mat-checkbox [checked]="false" (change)="onBlacklistingStatus($event)"></mat-checkbox>
+          </div>
+        </div>
+        <div class="col-10">
+          <mat-form-field>
+            <mat-label>Status</mat-label>
+            <mat-select name="blacklistingStatus" formControlName="blacklistingStatus">
+              <mat-option *ngFor="let act of BlacklistingStatus" [value]="act.datA_VALUE">
+                {{ act.datA_VALUE }}
+              </mat-option>
+            </mat-select>
+            <mat-error>Status is required</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+
+
+      <div *ngIf="isUserNameShow" class="row">
+        <div class="col-2">
+          <div class="mt-4">
+            <mat-checkbox [checked]="false" (change)="onUserNameChange($event)"></mat-checkbox>
+          </div>
+        </div>
+        <div class="col-10">
+          <mat-form-field class="example-full-width">
+            <mat-label>Retailer ID/MSISDN</mat-label>
+            <input matInput placeholder="User Name/MSISDN " formControlName="userName" maxlength="50">
+            <mat-error *ngIf="hasError('userName', 'required')">Retailer ID /MSISDN is required</mat-error>
+            <mat-error *ngIf="hasError('userName', 'pattern')">
+              Invalid Retailer ID / MSISDN .
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div *ngIf="isApiCodeShow" class="row">
+        <div class="col-2">
+          <div class="mt-4">
+            <mat-checkbox [checked]="false" (change)="onApiCode($event)"></mat-checkbox>
+          </div>
+        </div>
+        <div class="col-10">
+          <mat-form-field class="example-full-width">
+            <mat-label>API Code</mat-label>
+            <input matInput placeholder="API Code" formControlName="apicode" maxlength="30">
+            <mat-error *ngIf="hasError('apicode', 'required')">API Code is required</mat-error>
+            <mat-error *ngIf="hasError('apicode', 'pattern')">
+              Invalid API Code.
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div *ngIf="isMSISDNShow" class="row">
+        <div class="col-2">
+          <div class="mt-4">
+            <mat-checkbox [checked]="false" (change)="onMsisdn($event)"></mat-checkbox>
+          </div>
+        </div>
+        <div class="col-10">
+          <mat-form-field class="example-full-width">
+            <mat-label>MSISDN</mat-label>
+            <input matInput placeholder="MSISDN" formControlName="contactNo" maxlength="12">
+            <mat-error *ngIf="hasError('contactNo', 'required')">MSISDN is required</mat-error>
+            <mat-error *ngIf="hasError('contactNo', 'pattern')">
+              Invalid MSISDN.
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div *ngIf="isActive" class="row">
+        <div class="col-2">
+          <div class="mt-4">
+            <mat-checkbox [checked]="false" (change)="onActive($event)"></mat-checkbox>
+          </div>
+        </div>
+        <div class="col-10">
+          <mat-form-field>
+            <mat-label>Is Active</mat-label>
+            <mat-select formControlName="isActive">
+              <mat-option selected="selected" value=true>Yes</mat-option>
+              <mat-option value=false>No</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div *ngIf="isGeobit" class="row">
+        <div class="col-2">
+          <div class="mt-4">
+            <mat-checkbox [checked]="false" (change)="onGeobit($event)"></mat-checkbox>
+          </div>
+        </div>
+        <div class="col-10">
+          <mat-form-field>
+            <mat-label>Geo Fencing</mat-label>
+            <mat-select formControlName="Geobit">
+              <mat-option selected="selected" value=false>Disabled</mat-option>
+              <mat-option value=true>Enabled</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div *ngIf="isBVS" class="row">
+        <div class="col-2">
+          <div class="mt-4">
+            <mat-checkbox [checked]="false" (change)="onBVSchange($event)"></mat-checkbox>
+          </div>
+        </div>
+        <div class="col-10">
+          <mat-form-field>
+            <mat-label>BVS</mat-label>
+            <mat-select formControlName="bvs">
+              <mat-option selected="selected" value=0>Not Verified</mat-option>
+              <mat-option value=1>Verified</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div *ngIf="isWifibit" class="row">
+        <div class="col-2">
+          <div class="mt-4">
+            <mat-checkbox [checked]="false" (change)="onWifibit($event)"></mat-checkbox>
+          </div>
+        </div>
+        <div class="col-10">
+          <mat-form-field>
+            <mat-label>Wi-Fi Enablement</mat-label>
+            <mat-select formControlName="Wifibit">
+              <mat-option selected="selected" value=false>Disabled</mat-option>
+              <mat-option value=true>Enabled</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+
+
+      <div *ngIf="isRegionsShow" class="row">
+        <div class="col-2">
+          <div class="mt-4">
+            <mat-checkbox [checked]="false" (change)="onCheckRegion($event)"></mat-checkbox>
+          </div>
+        </div>
+        <div class="col-10">
+          <mat-form-field>
+            <mat-label>Region Name</mat-label>
+            <mat-select name="userRegion" formControlName="userRegion">
+              <mat-option selected="selected" value="">Select Region</mat-option>
+              <mat-option *ngFor="let obj1 of regions" [value]="obj1.value">
+                {{obj1.text}}
+              </mat-option>
+            </mat-select>
+            <mat-error>Region is required</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div *ngIf="isReportTypeShow" class="row">
+        <div class="col-2">
+          <div class="mt-4">
+            <mat-checkbox [checked]="false" (change)="onCheckReportType($event)"></mat-checkbox>
+          </div>
+        </div>
+        <div class="col-10">
+          <mat-form-field>
+            <mat-label>Report Type</mat-label>
+            <mat-select name="ReportType" formControlName="ReportType">
+              <mat-option selected="selected" value="">Select Report Type</mat-option>
+              <mat-option *ngFor="let channel of ReportTypes" [value]="channel.channeL_ID">
+                {{ channel.channeL_NAME }}
+              </mat-option>
+            </mat-select>
+            <mat-error>Report Type is required</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div *ngIf="isDistrictShow" class="row">
+        <div class="col-2">
+          <div class="mt-4">
+            <mat-checkbox [checked]="false" (change)="onCheckDistrict($event)"></mat-checkbox>
+          </div>
+        </div>
+        <!-- <div class="col-10">
+      <mat-form-field>
+        <mat-label>District</mat-label>
+
+        <mat-select [disableOptionCentering]="true" formControlName="DistrictId" matSelectFilter
+                    (selectionChange)="onChannelChange($event)">
+          <mat-select-filter [placeholder]="'Filter'" [displayMember]="'displaY_VALUE'" [array]="district"
+                             (filteredReturn)="filteredList1 = $event"></mat-select-filter>
+          <mat-option *ngFor="let data of filteredList1 " [value]="data.l_ID">
+            {{ data.displaY_VALUE }}
+          </mat-option>
+        </mat-select>
+        <mat-error>district is required</mat-error>
+      </mat-form-field>
+    </div> -->
+
+        <div class="col-10">
+          <mat-form-field class="example-full-width">
+            <mat-label>District</mat-label>
+            <input matInput type="text" matInput formControlName="DistrictId" (input)="onKeyPress1($event)" [matAutocomplete]="auto" />
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option *ngFor="let data of filteredList1 " [value]="data.displaY_VALUE" (click)="selectOption1(data.displaY_VALUE)">
+                {{ data.displaY_VALUE }}
+              </mat-option>
+            </mat-autocomplete>
+            <mat-error>district is required</mat-error>
+          </mat-form-field>
+        </div>
+
+
+
+
+      </div>
+
+    </form>
+
+    <div class="row mt-5"
+         style="position: relative; bottom: 20px; margin: 0 auto; display: block; width: 100%; left: 0px">
+      <div class="col-12">
+        <div class="example-full-width-" style="display: flex; justify-content: center;">
+          <button mat-raised-button color="primary" [disabled]="!searchForm.valid || !isValidDate"
+                  matTooltip="Search" style="position: absolute; width: 90%; background-color:#4070f4; color : white; display: flex; justify-content: center; border-radius: 20px;"
+                  class="justify-content-center btn btn-block" (click)="doSearch(searchForm.value)">
+            <mat-icon id="icon-search">search</mat-icon> Search
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

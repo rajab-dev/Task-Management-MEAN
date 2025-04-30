@@ -1,0 +1,14 @@
+
+
+<h2 [ngStyle]="{'color':data.titleColor}" class="title" mat-dialog-title>
+  <mat-icon  [ngStyle]="{'color':data.color}" *ngIf="data.icon">{{ data.icon }}</mat-icon>
+   {{ data.title }}
+   
+  </h2>
+ <div mat-dialog-content class="content">
+   <p>{{ data.description }}</p>
+ </div>
+ <div mat-dialog-actions class="actions">
+   <button mat-raised-button (click)="onCancel()">Cancel</button>
+   <button mat-raised-button color="primary" [ngStyle]="{'background-color':data.btnColor}" (click)="onConfirm()">OK</button>
+ </div>

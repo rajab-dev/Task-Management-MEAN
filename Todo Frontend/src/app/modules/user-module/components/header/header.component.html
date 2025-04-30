@@ -1,0 +1,104 @@
+
+
+
+<style>
+
+  .links{
+     font-size: 20px;
+     text-decoration: none;
+     color: rgba(255, 255, 255, 0.534);
+
+  }
+  .links:hover{
+
+    color: white;
+  }
+  .active{
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+  }
+</style>
+
+
+
+
+<div color="primary" style="height: 80px; width: 100%; display: flex; justify-content: space-evenly;box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);">
+
+
+  <div style="height: 80px; display:flex; align-items: center; justify-content: center;">
+    <button style="box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1); backdrop-filter: blur(1px); background-color: rgba(255, 255, 255, 0.3); outline: none; border: none; margin: 10px;">
+      <a style="color: white; font-size: 18px;">Todo-Angular</a>
+   </button>
+  </div>
+
+
+  <div style="height: 80px; margin-right: 30px; float: right; display: flex; align-items: center; justify-content: center;">
+
+  <button  style="box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1); backdrop-filter: blur(1px); background-color: rgba(255, 255, 255, 0.3); outline: none; border: none; margin: 10px;">
+     <a routerLinkActive="active" routerLink="/user/home" class="links">Home</a>
+  </button>
+
+  <button 
+  appCustomDialogForm 
+  [fields] ="field_add_task" 
+  [dialogTitle]="'Add Task'"
+  [dialogType]="'ADD_TASK'"
+  [dialogIcon]="'add'"
+
+  style="box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1); backdrop-filter: blur(1px); background-color: rgba(255, 255, 255, 0.3); outline: none; border: none; margin: 10px;">
+  <a class="links">Add Task</a>
+ 
+</button>
+
+  <button style="box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1); backdrop-filter: blur(1px); background-color: rgba(255, 255, 255, 0.3); outline: none; border: none; margin: 10px;">
+    <a routerLinkActive="active" routerLink="/user/profile" class="links">Profile</a>
+  </button>
+
+  
+
+  <button 
+  appCustomDialogForm 
+  [fields] ="fields" 
+  [dialogTitle]="'Contact Admin'"
+  [dialogType]="'SEND_MESSAGE_TO_ADMIN'"
+  [dialogIcon]="'message'"
+
+  style="box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1); backdrop-filter: blur(1px); background-color: rgba(255, 255, 255, 0.3); outline: none; border: none; margin: 10px;">
+  <a class="links">Contact-Admin</a>
+ 
+</button>
+
+
+
+
+ <button  
+
+ appDialog
+ [dialogId]="'none'"
+ [dialogType]="'LOGOUT_USER'" 
+ [dialogTitleColor]="'#4070f4'"
+ [dialogIconColor]="'#4070f4'"
+ [dialogTitle]="'Logout'"
+ [dialogDescription]='"You will have to login again in order to manage your tasks"'
+ [dialogIcon]="'logout'"
+ [dialogBtnColor]="'#4070f4'"
+  style="box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1); backdrop-filter: blur(1px); background-color: rgba(255, 255, 255, 0.3); outline: none; border: none; margin: 10px;">
+     
+     <a  class="links">Logout</a>
+ </button>
+
+
+ <mat-form-field appearance="outline" style="height: 30px; color: white !important; border-color: white !important; --mat-form-field-outline-color: white !important; --mat-form-field-outline-width: 2px;">
+  <mat-label style="color: white !important;">Select Theme</mat-label>
+  <mat-select (selectionChange)="onThemeChange($event.value)">
+    <mat-option *ngFor="let imageName of imageNames" [value]="imageName">
+      <img *ngIf="!isVideo(imageName)" [src]="'../../../../../assets/' + imageName" width="180" height="100">
+      <video *ngIf="isVideo(imageName)" autoplay loop muted class="bg-video">
+        <source  [src]="'../../../../../assets/' + imageName" type="video/mp4">
+      </video>
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+</div>
+</div>

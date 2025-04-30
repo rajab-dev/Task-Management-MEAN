@@ -1,0 +1,96 @@
+
+
+
+
+
+<div style="width: 100%; display: flex;">
+  
+  
+  <div style="width: 50%; height: 400px; box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1); background-color: white; margin-top: 20px; margin-left: 10px; padding: 10px; border: 1px solid lightgray;">
+  
+  
+    <div >
+
+      <mat-form-field style="height: 60px; width: 100%;" appearance="outline">
+        <mat-label >User</mat-label>
+        <mat-select [(ngModel)]="selectedUser" (selectionChange)="onUserChange()">
+            @for( user of allUsers; track user._id){
+              <mat-option [value]="user">{{ user }}</mat-option>
+            }
+
+            
+        </mat-select>
+      </mat-form-field>
+
+      <!-- <label for="userSelect">Select User: </label>
+      <select id="userSelect" [(ngModel)]="selectedUser" (change)="onUserChange()">
+        <option *ngFor="let user of allUsers" [selected]="user==='admin'" [value]="user">{{ user }}</option>
+      </select> -->
+  
+  
+  
+      <canvas baseChart
+        [datasets]="chartDataSpecific.datasets"
+        [labels]="chartDataSpecific.labels"
+        [options]="chartOptionsSpecific"
+        [type]="'bar'">
+      </canvas>
+    </div>
+  
+  
+    
+    </div>
+  
+  
+    <div style="width: 48%; height: 400px; box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1); background-color: white; margin-top: 20px; margin-left: 10px; padding: 10px; border: 1px solid lightgray;">
+  
+      <div>
+          <mat-form-field style="height: 60px; width: 100%;" appearance="outline">
+            <mat-label >Chart Type</mat-label>
+            <mat-select [(ngModel)]="chartType">
+              <mat-option value="doughnut">Doughnut</mat-option>
+              <mat-option value="bar">Bar</mat-option>
+              <mat-option value="line">Line</mat-option>
+              <mat-option value="pie">Pie</mat-option>
+              <mat-option value="radar">Radar</mat-option>
+              <mat-option value="polarArea">PolarArea</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+
+
+        <canvas
+          baseChart
+          [datasets]="chartDataTotal.datasets"
+          [labels]="chartDataTotal.labels"
+          [options]="chartOptionsTotal"
+          [type]="chartType">
+        </canvas>
+      </div>
+      
+      </div>
+  
+  
+  
+  </div>
+  
+  
+  <div style="width: 100%; display: flex;">
+  
+  
+    <div style="width: 100%; box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1); background-color: white; margin-top: 20px; margin-left: 10px; padding: 10px; border: 1px solid lightgray;">
+  
+  
+      <div >
+        <canvas baseChart
+          [datasets]="chartData.datasets"
+          [labels]="chartData.labels"
+          [options]="chartOptions"
+          [type]="'bar'">
+        </canvas>
+      </div>
+      
+      </div>
+  
+  
+  </div>

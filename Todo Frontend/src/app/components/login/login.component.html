@@ -1,0 +1,40 @@
+
+ <!DOCTYPE html>
+<html lang="en">
+  <body>
+    <section class="wrapper">
+      <div class="form signup">
+        <header>Login</header>
+
+        <form [formGroup]="loginForm" (ngSubmit)="handleLogin()">
+          <input type="text" placeholder="Username" formControlName="username" required />
+
+          @if(usernameValidator && usernameValidator.invalid && usernameValidator.touched){
+            <span style=" color: rgb(255, 255, 255);">this field is invalid</span>
+          }
+
+          <input type="password" placeholder="Password" formControlName="password" required />
+
+          @if(passwordValidator && passwordValidator.invalid && passwordValidator.touched){
+            <span style=" color: rgb(255, 255, 255);">password must be atleast 8 characters</span>
+          }
+
+          <input [disabled]="loginForm.invalid" type="submit" value="Login" />
+          <a routerLink="/register" style="color: rgb(255, 255, 255);">don't have an account? Register</a>
+        </form>
+      </div>
+
+      <div class="form login">
+        <header>Todo</header>
+        <form action="#">
+          <input type="text" placeholder="Email address" required />
+          <input type="password" placeholder="Password" required />
+          <a href="#">Forgot password?</a>
+          <input type="submit" value="Login" />
+        </form>
+      </div>
+    </section>
+  </body>
+</html>
+<router-outlet></router-outlet>
+

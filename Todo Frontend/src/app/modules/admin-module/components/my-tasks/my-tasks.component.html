@@ -1,0 +1,118 @@
+
+
+
+
+
+@if(loading){
+  <div style=" width: 100%; height: 100vh; display: flex; align-items: center; justify-content: center;">
+    <mat-spinner></mat-spinner>
+  </div>
+}@else{
+  <div>
+
+    <div
+      style="width: 100%;  display: flex; justify-content: center; margin-top: 20px; ">
+      <div style="border-radius: 10px; background-color: white; box-shadow: 0px, 5px, 10px rgba(0, 0, 0, 0.1); width: 70%; height: 220px; display: flex;">
+  
+        <div style=" width: 90%; display: flex;">
+          <div style="width: 100%; ">
+            <form style="margin: 10px;" [formGroup]="taskForm" (ngSubmit)="handleAddTask()">
+              <div>
+  
+  
+                <mat-form-field  class="w-100 mt-3" appearance="outline">
+                  <mat-label>Title</mat-label>
+                  <input type="text" name="title" formControlName="title" matInput placeholder="Title">
+                </mat-form-field>
+  
+                  <mat-form-field class="w-100 mt-2" appearance="outline">
+                    <mat-label>Description</mat-label>
+                    <textarea type="text" name="description" formControlName="description" matInput placeholder="task description"></textarea>
+                  </mat-form-field>
+  
+  
+              </div>
+  
+            </form>
+          </div>
+  
+        </div>
+        <div style=" display: flex; align-items: center; justify-content: center; margin-left: 5px; padding: 10px;">
+          <button (click)="handleAddTask()" [disabled]="taskForm.invalid" mat-raised-button
+            style="color: #4070f4; font-size: 12px;">Add Task</button>
+        </div>
+  
+      </div>
+    </div>
+  
+  
+  
+  
+    @for(task of allTasks; track task._id; let i = $index){
+      <div style="width: 100%; display: flex; flex-direction: column; justify-content: center; margin-top: 20px;  align-items: center; ">
+  
+      <div style="  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1); width: 70%; margin-top: 10px; display: flex; background-color: #ffff; border-radius: 10px;">
+        <div style=" height: 180px; width: 90%; display: flex;">
+          <div style="width: 100%; ">
+            <form #editTaskForm="ngForm" style="margin: 10px;">
+              <div>
+                <label for="">Title:</label><br>
+  
+                @if(i!==idx || readOnly){
+                  <input name="title" readonly [(ngModel)]='task.title' type="text"
+                  style="padding-left: 10px; border-radius: 2px; margin-left: 5px; width: 100%; height: 40px; font-size: 18px; border: none; outline: none; background-color:#4070f4; color: white;">
+  
+                }@else if(i==idx && !readOnly){
+                  <input name="title" [(ngModel)]='task.title' type="text"
+                  style="padding-left: 10px; border-radius: 2px; margin-left: 5px; width: 100%; height: 40px; font-size: 18px; border: none; outline: none; background-color:#4070f4; color: white;">
+                }
+  
+                <br><br>
+  
+                <label for="">Description:</label><br>
+
+                @if(i!==idx || readOnly){
+                  <input name="description" readonly [(ngModel)]='task.description' type="text"
+                  style="padding-left: 10px; border-radius: 2px; margin-left: 5px; width: 100%; font-size: 18px; border: none; outline: none; background-color: #4070f4; color: white; height: 40px;">
+                }@else if(i==idx && !readOnly){
+                  <input name="description" [(ngModel)]='task.description' type="text"
+                  style="padding-left: 10px; border-radius: 2px; margin-left: 5px; width: 100%; font-size: 18px; border: none; outline: none; background-color: #4070f4; color: white; height: 40px;">
+                }
+              </div>
+
+            </form>
+          </div>
+        </div>
+        <div style="height: 180px; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+          <button (click)="handleDelete(task._id)" mat-raised-button style="color: #ffff; background-color: red; ">Delete
+            Task</button><br>
+          <mat-checkbox (click)="handleUpdate(task._id)" [checked]="task.isCompleted" class="example-margin">Mark as
+            Done</mat-checkbox>
+          <div style="display: flex;">
+            <button style="font-size: medium; border: none; outline: none;" (click)="toggleEdit(task._id, i)">{{readOnly
+              || idx!==i ? "Edit" : "Cancel"}}</button>
+              @if(!readOnly && idx ==i){
+                <button style="font-size: medium; border: none; outline: none;"
+                (click)="handleEditTask(task._id, editTaskForm.value)">Update</button>
+              }
+
+          </div>
+  
+        </div>
+  
+      </div>
+  
+  
+  
+    </div>
+    }
+  
+  
+  
+  </div>
+}
+
+
+
+
+

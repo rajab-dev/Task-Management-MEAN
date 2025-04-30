@@ -1,0 +1,744 @@
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" /> -->
+
+
+
+
+
+<div [ngClass]="{ 'dark-mode': isDarkMode, 'light-mode': !isDarkMode }" style="display: flex; ">
+
+  <!-- <div> -->
+<app-search-control (onSearchClick)="doSearch($event)" [isTaskTitle]="true" [isTaskDescription] = "true" [isTaskStatus]="true" [isIMEI]="true" [isUID]="true"></app-search-control>
+
+<div style="width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; ">
+<div style="backdrop-filter: blur(0px); background-color: rgba(255, 255, 255, 0.077); width: 95%; height: 76.2vh;  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1); overflow-y: auto; margin-left: 20px; margin-top: 20px; border: 1px solid lightgray; border-radius: 5px; display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-around;">
+  <!-- <button (click)="toggleDarkMode()" style="padding: 8px 12px; font-size: 14px; border-radius: 8px; cursor: pointer;">
+    {{ isDarkMode ? '🌙 Dark Mode' : '☀ Light Mode' }}
+  </button> -->
+<!-- </div></div> -->
+  <!-- <div
+    style="width: 100%;  display: flex; justify-content: center; margin-top: 20px; ">
+     <div style="border-radius: 10px; background-color: rgba(255, 255, 255, 0.3); box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1); width: 70%; height: 220px; display: flex; backdrop-filter: blur(10px);">
+      <div style=" width: 90%; display: flex;">
+        <div style="width: 100%; ">
+          <form style="margin: 10px;" [formGroup]="taskForm" (ngSubmit)="handleAddTask()">
+            <div>
+
+              <mat-form-field class="w-100 mt-3" appearance="outline">
+                <mat-label>Title</mat-label>
+                <input type="text" name="title" formControlName="title" matInput placeholder="Title">
+              </mat-form-field><br>
+
+                <mat-form-field class="w-100 mt-2" appearance="outline">
+                  <mat-label>Description</mat-label>
+                  <textarea type="text" name="description" formControlName="description" matInput placeholder="task description"></textarea>
+                </mat-form-field>
+
+            </div>
+
+          </form>
+        </div>
+
+      </div>
+      <div style=" display: flex; align-items: center; justify-content: center; margin-left: 5px; padding: 10px;">
+        <button (click)="handleAddTask()" [disabled]="taskForm.invalid" mat-raised-button
+          style="color: rgb(234, 229, 229); font-size: 12px;">Add Task</button>
+      </div>
+
+    </div>
+  </div> -->
+
+      @defer{
+        @if(loading){
+          <!-- <div style=" width: 100%; height: 100vh; display: flex; align-items: center; justify-content: center;">
+          <mat-spinner></mat-spinner>
+          </div> -->
+          <!-- <div style="width: 100%; display: flex; flex-direction: column; justify-content: center; margin-top: 20px; align-items: center;">
+            <div style="width: 70%; margin-top: 10px; padding: 20px; background-color: #f0f0f0; border-radius: 10px; box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1); display: flex;">
+              
+        
+              <div style="flex: 1; margin-right: 10px;">
+                <div class="skeleton" style="width: 100%; height: 40px; margin-bottom: 10px;"></div>
+                <div class="skeleton" style="width: 100%; height: 40px;"></div>
+              </div>
+          
+        
+              <div style="width: 180px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                <div class="skeleton" style="width: 80px; height: 30px; margin-bottom: 10px;"></div>
+                <div class="skeleton" style="width: 80px; height: 40px; margin-bottom: 10px;"></div>
+                <div class="skeleton" style="width: 80px; height: 40px;"></div>
+              </div>
+          
+            </div>
+        
+            <div style="width: 70%; margin-top: 10px; padding: 20px; background-color: #f0f0f0; border-radius: 10px; box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1); display: flex;">
+              
+        
+              <div style="flex: 1; margin-right: 10px;">
+                <div class="skeleton" style="width: 100%; height: 40px; margin-bottom: 10px;"></div>
+                <div class="skeleton" style="width: 100%; height: 40px;"></div>
+              </div>
+          
+        
+              <div style="width: 180px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                <div class="skeleton" style="width: 80px; height: 30px; margin-bottom: 10px;"></div>
+                <div class="skeleton" style="width: 80px; height: 40px; margin-bottom: 10px;"></div>
+                <div class="skeleton" style="width: 80px; height: 40px;"></div>
+              </div>
+          
+            </div>
+        
+            <div style="width: 70%; margin-top: 10px; padding: 20px; background-color: #f0f0f0; border-radius: 10px; box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1); display: flex;">
+              
+        
+              <div style="flex: 1; margin-right: 10px;">
+                <div class="skeleton" style="width: 100%; height: 40px; margin-bottom: 10px;"></div>
+                <div class="skeleton" style="width: 100%; height: 40px;"></div>
+              </div>
+          
+        
+              <div style="width: 180px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                <div class="skeleton" style="width: 80px; height: 30px; margin-bottom: 10px;"></div>
+                <div class="skeleton" style="width: 80px; height: 40px; margin-bottom: 10px;"></div>
+                <div class="skeleton" style="width: 80px; height: 40px;"></div>
+              </div>
+          
+            </div>
+        
+        
+        
+          </div> -->
+           
+         <!-- new starts here ===>>>>>> -->
+          <div style="width: 95%; display: flex; flex-direction: column; height: fit-content; margin-left: 20px; padding-bottom: 20px;">
+
+            <div style="
+                box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1); 
+                width: 100%; 
+                margin-top: 10px; 
+                display: flex; 
+                background-color: #ffff; 
+                border-radius: 10px; 
+                padding: 10px;
+              ">
+          
+              <!-- Left side (Title & Description) -->
+              <div style="height: 180px; width: 90%; display: flex;">
+                <div style="width: 100%;">
+                  <div style="margin: 10px;">
+                    <!-- Skeleton for Title -->
+                    <div class="skeleton" style="
+                        width: 100%; 
+                        height: 40px; 
+                        background: #e0e0e0; 
+                        border-radius: 5px; 
+                        margin-bottom: 20px;">
+                    </div>
+          
+                    <!-- Skeleton for Description -->
+                    <div class="skeleton" style="
+                        width: 100%; 
+                        height: 40px; 
+                        background: #e0e0e0; 
+                        border-radius: 5px;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+          
+              <!-- Right side (Buttons & Actions) -->
+              <div style="
+                  height: 180px; 
+                  display: flex; 
+                  align-items: center; 
+                  justify-content: center; 
+                  flex-direction: column;
+                ">
+                <!-- Skeleton for Delete Button -->
+                <div class="skeleton" style="
+                    width: 80px; 
+                    height: 30px; 
+                    background: #e0e0e0; 
+                    border-radius: 5px; 
+                    margin-bottom: 10px;">
+                </div>
+          
+                <!-- Skeleton for Checkbox -->
+                <div class="skeleton" style="
+                    width: 100px; 
+                    height: 20px; 
+                    background: #e0e0e0; 
+                    border-radius: 5px; 
+                    margin-bottom: 10px;">
+                </div>
+          
+                <!-- Skeleton for Edit Button -->
+                <div class="skeleton" style="
+                    width: 80px; 
+                    height: 30px; 
+                    background: #e0e0e0; 
+                    border-radius: 5px;">
+                </div>
+              </div>
+          
+            </div>
+          </div>
+          
+          <div style="width: 95%; display: flex; flex-direction: column; height: fit-content; margin-left: 20px; padding-bottom: 20px;">
+
+            <div style="
+                box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1); 
+                width: 100%; 
+                margin-top: 10px; 
+                display: flex; 
+                background-color: #ffff; 
+                border-radius: 10px; 
+                padding: 10px;
+              ">
+          
+              <!-- Left side (Title & Description) -->
+              <div style="height: 180px; width: 90%; display: flex;">
+                <div style="width: 100%;">
+                  <div style="margin: 10px;">
+                    <!-- Skeleton for Title -->
+                    <div class="skeleton" style="
+                        width: 100%; 
+                        height: 40px; 
+                        background: #e0e0e0; 
+                        border-radius: 5px; 
+                        margin-bottom: 20px;">
+                    </div>
+          
+                    <!-- Skeleton for Description -->
+                    <div class="skeleton" style="
+                        width: 100%; 
+                        height: 40px; 
+                        background: #e0e0e0; 
+                        border-radius: 5px;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+          
+              <!-- Right side (Buttons & Actions) -->
+              <div style="
+                  height: 180px; 
+                  display: flex; 
+                  align-items: center; 
+                  justify-content: center; 
+                  flex-direction: column;
+                ">
+                <!-- Skeleton for Delete Button -->
+                <div class="skeleton" style="
+                    width: 80px; 
+                    height: 30px; 
+                    background: #e0e0e0; 
+                    border-radius: 5px; 
+                    margin-bottom: 10px;">
+                </div>
+          
+                <!-- Skeleton for Checkbox -->
+                <div class="skeleton" style="
+                    width: 100px; 
+                    height: 20px; 
+                    background: #e0e0e0; 
+                    border-radius: 5px; 
+                    margin-bottom: 10px;">
+                </div>
+          
+                <!-- Skeleton for Edit Button -->
+                <div class="skeleton" style="
+                    width: 80px; 
+                    height: 30px; 
+                    background: #e0e0e0; 
+                    border-radius: 5px;">
+                </div>
+              </div>
+          
+            </div>
+          </div>
+
+          <div style="width: 95%; display: flex; flex-direction: column; height: fit-content; margin-left: 20px; padding-bottom: 20px;">
+
+            <div style="
+                box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1); 
+                width: 100%; 
+                margin-top: 10px; 
+                display: flex; 
+                background-color: #ffff; 
+                border-radius: 10px; 
+                padding: 10px;
+              ">
+          
+              <!-- Left side (Title & Description) -->
+              <div style="height: 180px; width: 90%; display: flex;">
+                <div style="width: 100%;">
+                  <div style="margin: 10px;">
+                    <!-- Skeleton for Title -->
+                    <div class="skeleton" style="
+                        width: 100%; 
+                        height: 40px; 
+                        background: #e0e0e0; 
+                        border-radius: 5px; 
+                        margin-bottom: 20px;">
+                    </div>
+          
+                    <!-- Skeleton for Description -->
+                    <div class="skeleton" style="
+                        width: 100%; 
+                        height: 40px; 
+                        background: #e0e0e0; 
+                        border-radius: 5px;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+          
+              <!-- Right side (Buttons & Actions) -->
+              <div style="
+                  height: 180px; 
+                  display: flex; 
+                  align-items: center; 
+                  justify-content: center; 
+                  flex-direction: column;
+                ">
+                <!-- Skeleton for Delete Button -->
+                <div class="skeleton" style="
+                    width: 80px; 
+                    height: 30px; 
+                    background: #e0e0e0; 
+                    border-radius: 5px; 
+                    margin-bottom: 10px;">
+                </div>
+          
+                <!-- Skeleton for Checkbox -->
+                <div class="skeleton" style="
+                    width: 100px; 
+                    height: 20px; 
+                    background: #e0e0e0; 
+                    border-radius: 5px; 
+                    margin-bottom: 10px;">
+                </div>
+          
+                <!-- Skeleton for Edit Button -->
+                <div class="skeleton" style="
+                    width: 80px; 
+                    height: 30px; 
+                    background: #e0e0e0; 
+                    border-radius: 5px;">
+                </div>
+              </div>
+          
+            </div>
+          </div>
+          <style>
+          /* Optional: Skeleton animation */
+          .skeleton {
+            animation: pulse 1.5s infinite;
+          }
+          
+          @keyframes pulse {
+            0% {
+              background-color: #e0e0e0;
+            }
+            50% {
+              background-color: #f0f0f0;
+            }
+            100% {
+              background-color: #e0e0e0;
+            }
+          }
+          </style>
+          
+        
+        }
+
+        <!-- <div style="border: 1px solid red;"> -->
+     @for(task of allTasks; track task?._id;){
+
+      <!-- <div style="width: 95%; display: flex; flex-direction: column; height: fit-content; margin-left: 20px; padding-bottom: 20px;">
+
+        <div
+          style="  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1); width: 100%; margin-top: 10px; display: flex; background-color: #ffff; border-radius: 10px; ">
+          <div style=" height: 180px; width: 90%; display: flex;">
+            <div style="width: 100%; ">
+              <form #editTaskForm="ngForm" style="margin: 10px;">
+                <div>
+                  <label for="">Title:</label><br>
+    
+    
+                  <input name="title" readonly [(ngModel)]='task.title' type="text"
+                    style="padding-left: 10px; border-radius: 2px; margin-left: 5px; width: 100%; height: 40px; font-size: 18px; border: none; outline: none; background-color:#4070f4; color: white;">
+    
+                  <br><br>
+    
+                  <label for="">Description:</label><br>
+    
+                  <input name="description" readonly [(ngModel)]='task.description' type="text"
+                    style="padding-left: 10px; border-radius: 2px; margin-left: 5px; width: 100%; font-size: 18px; border: none; outline: none; background-color: #4070f4; color: white; height: 40px;">
+                </div>
+    
+              </form>
+            </div>
+          </div>
+          <div style="height: 180px; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+              <button mat-raised-button
+              style="background-color: red; color: #ffff;"
+              appDialog
+              [dialogId]="task._id"
+              [dialogType]="'USER_DELETE_TASK'" 
+              [dialogTitleColor]="'red'"
+              [dialogIconColor]="'red'"
+              [dialogTitle]="'Warning'"
+              [dialogDescription]='"This will delete task permanently."'
+              [dialogIcon]="'warning'"
+              [dialogBtnColor]="'red'"
+              >
+        Delete
+      </button>
+              <br>
+            <mat-checkbox 
+            (click)="handleUpdate(task._id)" [checked]="task.isCompleted" class="example-margin">Mark as
+              Done</mat-checkbox>
+            <div style="display: flex;"> 
+                  <button 
+                  appCustomDialogForm 
+                  [dialogId]="task._id"
+                  [fields] ="getDefaultValues(task)" 
+                  [dialogTitle]="'Edit Task'"
+                  [dialogType]="'EDIT_USER_TASK'"
+                  [dialogIcon]="'edit'"
+                  style="background-color: #4070f4; color: white; outline: none; border: none; margin: 10px;">
+                 Edit
+                </button>
+            </div>
+    
+          </div>
+    
+        </div>
+    
+        
+    
+      </div>  -->
+
+
+    <!-- new states fronm here ====>>>>> -->
+      <!-- <div style="
+    width: 95%; 
+    display: flex; 
+    flex-direction: column; 
+    height: fit-content; 
+    margin-left: 20px; 
+    padding-bottom: 20px;
+">
+
+  <div style="
+      box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.05); 
+      width: 100%; 
+      margin-top: 20px; 
+      display: flex; 
+      flex-direction: column; 
+      background: #f9f9f9; 
+      border-radius: 16px; 
+      overflow: hidden; 
+      transition: transform 0.2s ease-in-out;
+    " 
+    onmouseover="this.style.transform='scale(1.02)'"
+    onmouseout="this.style.transform='scale(1)'"
+  >
+
+
+    <div style="
+        padding: 20px; 
+        background: #ffffff; 
+        border-bottom: 1px solid #eeeeee;
+      ">
+      <form #editTaskForm="ngForm">
+        <div style="display: flex; flex-direction: column; gap: 15px;">
+          <div>
+            <label for="title" style="font-weight: bold; color: #555;">Title:</label>
+            <input 
+              name="title" 
+              readonly 
+              [(ngModel)]='task.title' 
+              type="text"
+              style="
+                padding: 12px; 
+                border-radius: 8px; 
+                width: 100%; 
+                font-size: 16px; 
+                border: 1px solid #ddd; 
+                outline: none; 
+                background-color: #4070f4; 
+                color: white;
+                transition: border-color 0.2s ease-in-out;
+              " 
+              onfocus="this.style.borderColor='#4070f4'"
+              onblur="this.style.borderColor='#ddd'"
+            >
+          </div>
+
+          <div>
+            <label for="description" style="font-weight: bold; color: #555;">Description:</label>
+            <input 
+              name="description" 
+              readonly 
+              [(ngModel)]='task.description' 
+              type="text"
+              style="
+                padding: 12px; 
+                border-radius: 8px; 
+                width: 100%; 
+                font-size: 16px; 
+                border: 1px solid #ddd; 
+                outline: none; 
+                background-color: #4070f4; 
+                color: white;
+                transition: border-color 0.2s ease-in-out;
+              "
+              onfocus="this.style.borderColor='#4070f4'"
+              onblur="this.style.borderColor='#ddd'"
+            >
+          </div>
+        </div>
+      </form>
+    </div>
+
+   
+    <div style="
+        display: flex; 
+        justify-content: space-between; 
+        align-items: center; 
+        padding: 15px 20px; 
+        background: #ffffff;
+      ">
+      <button mat-raised-button
+        style="
+          background: #ff4c4c; 
+          color: #ffffff; 
+          padding: 10px 20px; 
+          border-radius: 8px; 
+          border: none; 
+          cursor: pointer; 
+          font-weight: bold;
+          transition: background 0.3s ease-in-out;
+        "
+        appDialog
+        [dialogId]="task._id"
+        [dialogType]="'USER_DELETE_TASK'" 
+        [dialogTitleColor]="'red'"
+        [dialogIconColor]="'red'"
+        [dialogTitle]="'Warning'"
+        [dialogDescription]='"This will delete task permanently."'
+        [dialogIcon]="'warning'"
+        [dialogBtnColor]="'red'"
+        onmouseover="this.style.background='#e04343'"
+        onmouseout="this.style.background='#ff4c4c'"
+      >
+        Delete
+      </button>
+
+      <mat-checkbox 
+        (click)="handleUpdate(task._id)" 
+        [checked]="task.isCompleted" 
+        class="example-margin"
+        style="font-weight: bold; color: #4070f4;"
+      >
+        Mark as Done
+      </mat-checkbox>
+
+      <button 
+        appCustomDialogForm 
+        [dialogId]="task._id"
+        [fields]="getDefaultValues(task)" 
+        [dialogTitle]="'Edit Task'"
+        [dialogType]="'EDIT_USER_TASK'"
+        [dialogIcon]="'edit'"
+        style="
+          background: #4070f4; 
+          color: #ffffff; 
+          padding: 10px 20px; 
+          border-radius: 8px; 
+          border: none; 
+          cursor: pointer; 
+          font-weight: bold;
+          transition: background 0.3s ease-in-out;
+        "
+        onmouseover="this.style.background='#3658c1'"
+        onmouseout="this.style.background='#4070f4'"
+      >
+        Edit
+      </button>
+    </div>
+
+  </div>
+</div> -->
+
+<!-- new new ======>>> -->
+
+
+<!-- <div style="width: 40%; margin: 10px 0; display: flex; justify-content: center; height: fit-content;">
+
+
+  <div #taskCard
+  
+    style="width: 100%; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); background: #ffffff; border-radius: 12px; overflow: hidden; display: flex; position: relative;">
+
+
+    <div style="flex: 1; padding: 15px; background: #f4f6fb;">
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <div style="display: flex; ">
+
+        <input name="title" readonly [(ngModel)]='task.title' type="text"
+          style="width: 100%; padding: 8px; font-size: 16px; border: 1px solid #d1d9e6; background: #ffffff; color: #333; border-radius: 8px; outline: none; font-weight: 500; text-align: center;">
+
+          <button style="padding: 8px; font-size: 16px; border: 1px solid #d1d9e6; background: #ffffff; color: #333; border-radius: 8px; outline: none; font-weight: 500; text-align: center;" 
+          (click)="isOPtionsOpen && specificTaskID == task._id ? slideOut(actionPanel) : slideIn(actionPanel, task._id)">
+            <mat-icon>more_vertical</mat-icon>
+          </button>
+          </div>
+         <div style="margin: 10px 0; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); border-radius: 12px; overflow: hidden; background: #ffffff;">
+    
+
+          <div (click)="togglePanel(task._id)" style="padding: 15px; background: #f4f6fb; display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
+            <span style="font-size: 16px; font-weight: 500;">{{ task.title }}</span>
+            <span  >{{ expandedTaskId === task._id ? '🔼' : '🔽' }}</span>
+          </div>
+      
+
+          <div *ngIf="expandedTaskId === task._id" style="padding: 15px; background: #ffffff; border-top: 1px solid #d1d9e6;">
+            <div  #description  name="description" readonly 
+            
+              style="width: 100%; padding: 8px; font-size: 14px; border: 1px solid #d1d9e6; background: #ffffff; color: #333; border-radius: 8px; outline: none; resize: none; overflow: hidden; ">
+              {{task.description}}
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div #actionPanel
+     [style.display]="specificTaskID===task._id ? 'flex' : 'none'"
+    style=" width: 0; opacity: 0; display: flex; flex-direction: column; align-items: center; justify-content: space-evenly; background: #e4e4e4; transform: translateX(20px); transition: all 0.5s ease-in-out;">
+      
+      <mat-checkbox (click)="handleUpdate(task._id)" [checked]="task.isCompleted"
+        style="color: #ffffff;">✔ Done</mat-checkbox>
+
+      <button appCustomDialogForm         
+        [dialogId]="task._id"
+        [fields]="getDefaultValues(task)" 
+        [dialogTitle]="'Edit Task'"
+        [dialogType]="'EDIT_USER_TASK'"
+        [dialogIcon]="'edit'"
+        (formSubmit)="onFormSubmit($event, actionPanel)"
+        style="background: #ffffff; color: #4070f4; padding: 6px 10px; font-size: 14px; border-radius: 8px; border: none; cursor: pointer;">
+        ✏ Edit
+      </button>
+
+      <button mat-raised-button appDialog [dialogId]="task._id" [dialogType]="'USER_DELETE_TASK'"  
+        [dialogTitleColor]="'red'"
+        [dialogIconColor]="'red'"
+        [dialogTitle]="'Warning'"
+        [dialogDescription]='"This will delete task permanently."'
+        [dialogIcon]="'warning'"
+        [dialogBtnColor]="'red'"
+        style="background: #ff4b5c; color: #ffffff; padding: 6px 10px; font-size: 14px; border-radius: 8px; border: none; cursor: pointer;">
+        🗑 Delete
+      </button>
+    </div>
+  </div>
+</div> -->
+
+
+
+
+
+<div class="task-container" >
+
+  <div #taskCard class="task-card">
+    <div class="task-content" style="background-color: rgba(255, 255, 255, 0.3); backdrop-filter: blur(10px); border-radius: 10px; padding: 10px;">
+      <div class="task-header">
+        <input style="background-color: transparent; border: none; color: inherit;" name="title" readonly [(ngModel)]='task.title' type="text" class="task-title">
+
+        <button class="options-btn"
+          (click)="isOPtionsOpen && specificTaskID == task._id ? slideOut(actionPanel) : slideIn(actionPanel, task._id)">
+          <mat-icon>more_vertical</mat-icon>
+        </button>
+      </div>
+
+      <div  style="background-color: rgba(255, 255, 255, 0.3); backdrop-filter: blur(10px);">
+        <div (click)="togglePanel(task._id)" class="panel-header">
+          <span style="width: 80%;" class="span-title">{{ task.title }}</span>
+          <mat-icon (click)="copyToClipboard($event, task.description)" *ngIf="expandedTaskId == task._id" style="color: rgb(171, 170, 170);">content_copy</mat-icon>
+          <span class="span-title">{{ expandedTaskId === task._id ? '🔼' : '🔽' }}</span>
+        </div>
+
+        <div *ngIf="expandedTaskId === task._id" class="panel-body" >
+          <div #description name="description" readonly class="description-text">
+            {{ task.description }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background-color: rgba(255, 255, 255, 0.3); backdrop-filter: blur(10px); border-radius: 10px; padding: 10px;" #actionPanel [style.display]="specificTaskID===task._id ? 'flex' : 'none'" class="action-panel">
+      <mat-checkbox (click)="handleUpdate(task._id)" [checked]="task.isCompleted">✔ Done</mat-checkbox>
+
+      <button appCustomDialogForm [dialogId]="task._id" [fields]="getDefaultValues(task)" [dialogTitle]="'Edit Task'"
+        [dialogType]="'EDIT_USER_TASK'" [dialogIcon]="'edit'" (formSubmit)="onFormSubmit($event, actionPanel)"
+        class="edit-btn">
+        ✏ Edit
+      </button>
+
+      <button mat-raised-button appDialog [dialogId]="task._id" [dialogType]="'USER_DELETE_TASK'"
+        [dialogTitleColor]="'red'" [dialogIconColor]="'red'" [dialogTitle]="'Warning'"
+        [dialogDescription]='"This will delete task permanently."' [dialogIcon]="'warning'" [dialogBtnColor]="'red'"
+        class="delete-btn">
+        🗑 Delete
+      </button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     }
+        <!-- </div> -->
+
+    }
+   
+    
+
+</div>
+
+<!-- <div > -->
+  <mat-paginator
+  style="background-color: rgba(255, 255, 255, 0.3); backdrop-filter: blur(10px); border-radius: 10px; padding: 10px; color: #ffffff;
+  width: 95%; margin-left: 20px; "
+  [length]="totalTasks"
+  [pageSize]="6"
+  [pageSizeOptions]="[6, 10, 20]"
+  (page)="onPageChange($event)"
+  [showFirstLastButtons]="true">
+  </mat-paginator>
+  <!-- </div> -->
+
+</div>
+</div>
+
+
+
+
+
+

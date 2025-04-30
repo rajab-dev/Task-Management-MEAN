@@ -1,0 +1,18 @@
+
+
+<h1 class="title" mat-dialog-title>
+  <mat-icon  [ngStyle]="{'color':data.iconColor}" *ngIf="data.icon">{{ data.icon }}</mat-icon>
+  
+  {{data.title}}</h1>
+    <div mat-dialog-content class="content">
+      <form [formGroup]="form" *ngFor="let field of data.fields">
+        <mat-form-field appearance="outline" style="margin-top: 10px; min-width: 400px; min-height: 60px;">
+          <mat-label>{{field.name}}</mat-label>
+          <input matInput [formControlName]="field.name" [placeholder]="field.placeholder">
+        </mat-form-field><br>
+      </form>
+    </div>
+    <div mat-dialog-actions class="actions">
+      <button  mat-raised-button (click)="onCancel()">Cancel</button>
+      <button mat-raised-button color="primary" [disabled]="form.invalid" (click)="onSubmit()">OK</button>
+    </div>

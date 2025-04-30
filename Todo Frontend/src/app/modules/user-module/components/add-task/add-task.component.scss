@@ -1,0 +1,294 @@
+
+
+.skeleton {
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -150px;
+  height: 100%;
+  width: 150px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  animation: loading 1.2s infinite;
+}
+
+@keyframes loading {
+  0% {
+    left: -150px;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+.your-container > *:last-child {
+  margin-bottom: 20px;
+}
+
+
+.page {
+  /* margin-top: auto; */
+  position: sticky;
+  bottom: 0;
+  background: #fff; /* Optional: Keeps it looking clean */
+  padding: 8px 0; /* Optional: Add some breathing room */
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05); /* Optional: A subtle shadow */
+}
+
+
+/* Base styles */
+.task-container {
+  width: 40%;
+  padding: 15px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.task-card {
+  width: 100%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  position: relative;
+}
+
+.task-content {
+  flex: 1;
+  padding: 15px;
+  background: #f4f6fb;
+}
+
+.task-header {
+  display: flex;
+  gap: 10px;
+}
+
+.task-title {
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #d1d9e6;
+  background: #ffffff;
+  color: #333;
+  border-radius: 8px;
+  outline: none;
+  font-weight: 500;
+  text-align: center;
+}
+
+.options-btn {
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #d1d9e6;
+  background: #ffffff;
+  color: #333;
+  border-radius: 8px;
+  outline: none;
+  font-weight: 500;
+}
+
+.expansion-panel {
+  margin: 10px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.panel-header {
+  padding: 15px;
+  background: #f4f6fb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.panel-body {
+  padding: 15px;
+  background: #ffffff;
+  border-top: 1px solid #d1d9e6;
+  width: 100%;
+  word-wrap: break-word;
+  word-break: break-all;
+  /* overflow: hidden; */
+}
+
+.description-text {
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #d1d9e6;
+  background: #ffffff;
+  color: #333;
+  border-radius: 8px;
+  outline: none;
+  resize: none;
+  overflow: hidden;
+  word-wrap: break-word;
+}
+
+.action-panel {
+  width: 0;
+  opacity: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  background: #e4e4e4;
+  transform: translateX(20px);
+  transition: all 0.5s ease-in-out;
+}
+
+.edit-btn,
+.delete-btn {
+  padding: 6px 10px;
+  font-size: 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.edit-btn {
+  background: #ffffff;
+  color: #4070f4;
+}
+
+.delete-btn {
+  background: #ff4b5c;
+  color: #ffffff;
+}
+
+/* Dark mode styles */
+.dark-mode {
+  background: #121212;
+  color: #ffffff;
+}
+
+.dark-mode > .task-card {
+  background: #1e1e1e;
+}
+
+.dark-mode > .task-card > .task-content {
+  background: #252525;
+}
+
+.dark-mode > .task-card > .task-content > .task-header {
+  background: #333333;
+}
+
+.dark-mode > .task-card > .expansion-panel {
+  background: #424242;
+}
+
+.dark-mode > .task-card > .panel-body {
+  background: #2c2c2c;
+}
+
+.dark-mode .action-panel {
+  background: #2c2c2c;
+}
+
+.dark-mode button {
+  background: #333333;
+  color: #ffffff;
+}
+
+.dark-mode .delete-btn {
+  background: #ff4b5c;
+  color: #ffffff;
+}
+
+.toggle-mode-btn {
+  padding: 8px;
+  border-radius: 8px;
+  background: #4070f4;
+  color: #ffffff;
+  cursor: pointer;
+}
+/* .description-text {
+  color: rgb(0, 0, 0);
+  background-color: white;
+  word-wrap: normal;
+  overflow: hidden;
+} */
+.dark-mode .task-title, .dark-mode .description-text {
+  background: #333333;
+  color: #ffffff;
+  border: 1px solid #555555;
+}
+
+
+.dark-mode .panel-header{
+  background: #333333;
+color: white;
+}
+.dark-mode .panel-body{
+  background: #333333;
+color: white;
+}
+.dark-mode .span-title{
+  background: #333333;
+  color: #ffffff;
+  /* border: 1px solid #555555; */
+}
+
+
+.task-container {
+  background-color: transparent !important;
+}
+
+.task-card {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+.mat-card, .mat-dialog-container {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(10px);
+}
+
+
+
+/* .mat-paginator {
+  color: white !important;
+}
+
+.mat-paginator-range-label,
+.mat-paginator-icon {
+  color: white !important;
+}
+
+.mat-paginator-navigation-previous,
+.mat-paginator-navigation-next,
+.mat-paginator-navigation-first,
+.mat-paginator-navigation-last {
+  color: white !important;
+}
+
+.mat-paginator .mat-select-value {
+  color: white !important;
+} */
+
+/* Target the next button */
+.mat-paginator-navigation-next .mat-icon-button {
+  background-color: red !important;
+  color: white !important; /* Change the icon color */
+}
+
+/* Target the previous button */
+.mat-paginator-navigation-previous .mat-icon-button {
+  background-color: blue !important;
+  color: white !important; /* Change the icon color */
+}
+
