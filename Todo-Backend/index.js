@@ -12,7 +12,7 @@ import helmet from 'helmet';
 export const app = express();
 
 config({
-  path: "./data/config.env",
+  path: "./Todo-Backend/data/config.env",
 });
 
 app.use(express.urlencoded({ extended: true }));
