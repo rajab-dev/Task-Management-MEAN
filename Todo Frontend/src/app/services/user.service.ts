@@ -11,19 +11,19 @@ export class UserService {
 
   getProfile(){
     console.log("from service")
-    return this.http.get("http://localhost:5000/user/me")
+    return this.http.get("https://task-management-lcvq.onrender.com/user/me")
  }
 
   updateProfile(data:any){
-     return this.http.put("http://localhost:5000/user/update-profile", data)
+     return this.http.put("https://task-management-lcvq.onrender.com/user/update-profile", data)
   }
 
   changePassword(data:any){
-    return this.http.put("http://localhost:5000/user/change-password", data)
+    return this.http.put("https://task-management-lcvq.onrender.com/user/change-password", data)
   }
 
   sendMessage(data:any){
-    return this.http.post("http://localhost:5000/user/send-message", data)
+    return this.http.post("https://task-management-lcvq.onrender.com/user/send-message", data)
   }
 
 

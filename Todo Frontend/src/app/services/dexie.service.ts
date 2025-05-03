@@ -26,7 +26,7 @@ export class DexieService {
   }
 
   getTasksFromBackend(): Observable<any> {
-    return this.http.get("http://localhost:5000/task/all-tasks");
+    return this.http.get("https://task-management-lcvq.onrender.com/task/all-tasks");
   }
 
 

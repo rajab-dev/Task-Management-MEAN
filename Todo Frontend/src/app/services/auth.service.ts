@@ -13,19 +13,19 @@ export class AuthService {
 
   registerUser(data:any){
     console.log("from service", data)
-    return this.http.post("http://localhost:5000/user/register", data, {
+    return this.http.post("https://task-management-lcvq.onrender.com/user/register", data, {
     });
 
   }
 
   loginUser(data:any){
     console.log("from service", data)
-    return this.http.post("http://localhost:5000/user/login", data, {
+    return this.http.post("https://task-management-lcvq.onrender.com/user/login", data, {
     }); 
   }
 
   logoutUser(){
-    return this.http.get("http://localhost:5000/user/logout");
+    return this.http.get("https://task-management-lcvq.onrender.com/user/logout");
   }
 
   // tknCookies(){
@@ -67,18 +67,18 @@ export class AuthService {
   
   isAdmin(){
     console.log("from service")
-    return this.http.get("http://localhost:5000/user/check-role")
+    return this.http.get("https://task-management-lcvq.onrender.com/user/check-role")
   }
 
 
   getProfile(){
      console.log("from service")
-     return this.http.get("http://localhost:5000/user/me")
+     return this.http.get("https://task-management-lcvq.onrender.com/user/me")
   }
 
 
   refreshToken():Observable<string>   {
-    return this.http.get<string>("http://localhost:5000/user/refresh-token")
+    return this.http.get<string>("https://task-management-lcvq.onrender.com/user/refresh-token")
   }
 
   getCsrfToken(name:any){
